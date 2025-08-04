@@ -13,7 +13,7 @@
 #include <ctime>
 #include <iostream>
 
-#include "Account.class.hpp"
+#include "Account.hpp"
 
 #define ENSURE_DOUBLE_DIGIT(number) ((number < 10) ? "0" : "") << number
 
@@ -22,32 +22,27 @@ int Account::_totalAmount = 0;
 int Account::_totalNbDeposits = 0;
 int Account::_totalNbWithdrawals = 0;
 
-int
-	Account::getNbAccounts(void)
+int Account::getNbAccounts(void)
 {
 	return (Account::_nbAccounts);
 }
 
-int
-	Account::getTotalAmount(void)
+int Account::getTotalAmount(void)
 {
 	return (Account::_totalAmount);
 }
 
-int
-	Account::getNbDeposits(void)
+int Account::getNbDeposits(void)
 {
 	return (Account::_totalNbDeposits);
 }
 
-int
-	Account::getNbWithdrawals(void)
+int Account::getNbWithdrawals(void)
 {
 	return (Account::_totalNbWithdrawals);
 }
 
-void
-	Account::displayAccountsInfos(void)
+void Account::displayAccountsInfos(void)
 {
 	Account::_displayTimestamp();
 	std::cout
@@ -88,8 +83,7 @@ Account::~Account()
 		<< "closed" << std::endl;
 }
 
-void
-	Account::makeDeposit(int deposit)
+void Account::makeDeposit(int deposit)
 {
 	if (deposit < 0)
 	{
@@ -113,8 +107,7 @@ void
 		<< "nb_deposits:" << this->_nbDeposits << std::endl;
 }
 
-bool
-	Account::makeWithdrawal(int withdrawal)
+bool Account::makeWithdrawal(int withdrawal)
 {
 	if (withdrawal < 0)
 	{
@@ -156,14 +149,12 @@ bool
 	return (accepted);
 }
 
-int
-	Account::checkAmount(void) const
+int Account::checkAmount(void) const
 {
 	return (this->_amount);
 }
 
-void
-	Account::displayStatus(void) const
+void Account::displayStatus(void) const
 {
 	Account::_displayTimestamp();
 	std::cout
@@ -173,8 +164,7 @@ void
 		<< "withdrawals:" << this->_nbWithdrawals << std::endl;
 }
 
-void
-	Account::_displayTimestamp(void)
+void Account::_displayTimestamp(void)
 {
     std::time_t t = std::time(0);
     std::tm* now = std::localtime(&t);

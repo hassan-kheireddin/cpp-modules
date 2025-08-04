@@ -14,11 +14,12 @@ private:
     std::string darkestSecret;
 
 public:
-    Contact();
-    bool checkName(const std::string& name) const;
+    bool checkName(const std::string& name) const; //
     bool checkPhoneNumber(const std::string& phone) const;
     bool checkContact();
+
     void detailedContact() const;
+    
     std::string getFirstName() const;
     std::string getLastName() const;
     std::string getNickname() const;

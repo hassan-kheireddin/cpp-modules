@@ -57,15 +57,12 @@ void PhoneBook::run() {
     while (true) {
         std::cout << "Enter command (ADD, SEARCH, EXIT): ";
         std::getline(std::cin, command);
-        if (std::cin.eof())
+        if (std::cin.eof() || command == "EXIT")
             break;
-
         if (command == "ADD") {
             addContact();
         } else if (command == "SEARCH") {
             searchContacts();
-        } else if (command == "EXIT") {
-            break;
         } else {
             std::cout << "Invalid command. Try again.\n";
         }

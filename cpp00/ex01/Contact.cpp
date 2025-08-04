@@ -12,19 +12,16 @@
 
 #include "Contact.hpp"
 
-
-Contact::Contact() {};
-
 bool Contact::checkName(const std::string& name) const
 {
     if (name.empty()) {
         std::cout << "Field cannot be empty. Please try again." << std::endl;
         return false;
     }
-    int length = std::strlen(name.c_str());
-    for (int i = 0; i < length; ++i) {
+    size_t length = name.length();
+    for (size_t i = 0; i < length; ++i) {
         if (!std::isalpha(name[i]) && name[i] != ' ' && name[i] != '-') {
-            std::cout << "Invalid character in name. Only letters, spaces, and hyphens are allowed." << std::endl;
+            std::cout << "Invalid character in Full name. Only letters, spaces, and hyphens are allowed." << std::endl;
             return false;
         }
     }
@@ -42,8 +39,8 @@ bool Contact::checkPhoneNumber(const std::string& phone) const
         std::cout << "Invalid character in phone number. Only digits and '+' at beginning are allowed." << std::endl;
         return false;
     }
-    int length = std::strlen(phone.c_str());
-    for (int i = 1; i < length; ++i) {
+    size_t length = phone.length();
+    for (size_t i = 1; i < length; ++i) {
         if (!std::isdigit(phone[i])) {
             std::cout << "Invalid character in phone number. Only digits and '+' at beginning are allowed." << std::endl;
             return false;
@@ -63,7 +60,10 @@ bool Contact::checkContact()
 
     std::cout << "Enter Nickname: ";
     std::getline(std::cin, nickname);
-    if (nickname.empty()) return false;
+    if (nickname.empty()) {
+        std::cout << "Field cannot be empty. Please try again." << std::endl;
+        return false;
+    }
 
     std::cout << "Enter Phone Number: ";
     std::getline(std::cin, phoneNumber);
@@ -71,7 +71,10 @@ bool Contact::checkContact()
 
     std::cout << "Enter Darkest Secret: ";
     std::getline(std::cin, darkestSecret);
-    if (darkestSecret.empty()) return false;
+    if (darkestSecret.empty()) {
+        std::cout << "Field cannot be empty. Please try again." << std::endl;
+        return false;
+    }
 
     return true;
 }

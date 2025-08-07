@@ -13,12 +13,7 @@
 #include "Point.hpp"
 //Used to determine the orientation of the point relative to the triangle edges.
 static Fixed crossProduct(const Point& p1, const Point& p2, const Point& p3) {
-    Fixed x1 = p2.getX() - p1.getX();
-    Fixed y1 = p3.getY() - p1.getY();
-    Fixed x2 = p2.getY() - p1.getY();
-    Fixed y2 = p3.getX() - p1.getX();
-    
-    return (x1 * y1) - (x2 * y2);
+    return (p2.getX() - p1.getX()) * (p3.getY() - p1.getY()) - (p2.getY() - p1.getY()) * (p3.getX() - p1.getX());
 }
 //uses the cross product to check the point’s position relative to each edge.
 bool bsp(Point const a, Point const b, Point const c, Point const point) {

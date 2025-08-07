@@ -27,10 +27,10 @@ int main() {
     // Outside
     Point p4(10, 10);
     
-    std::cout << "Point (1,1) inside: " << bsp(a, b, c, p1) << std::endl;
-    std::cout << "Point (5,0) inside: " << bsp(a, b, c, p2) << std::endl;
-    std::cout << "Point (0,0) inside: " << bsp(a, b, c, p3) << std::endl;
-    std::cout << "Point (10,10) inside: " << bsp(a, b, c, p4) << std::endl;
+    std::cout << (bsp(a, b, c, p1) ? "########################## Point (1,1) inside" : "############################## Point (1,1) outside") << std::endl;
+    std::cout << (bsp(a, b, c, p2) ? "########################## Point (5,0) inside" : "############################## Point (5,0) outside") << std::endl;
+    std::cout << (bsp(a, b, c, p3) ? "########################## Point (0,0) inside" : "############################## Point (0,0) outside") << std::endl;
+    std::cout << (bsp(a, b, c, p4) ? "########################## Point (10,10) inside" : "############################## Point (10,10) outside") << std::endl;
     
     return 0;
 }

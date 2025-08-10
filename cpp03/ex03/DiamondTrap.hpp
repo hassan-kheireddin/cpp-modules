@@ -3,6 +3,7 @@
 
 #include "FragTrap.hpp"
 #include "ScavTrap.hpp"
+#include "ClapTrap.hpp"
 
 class DiamondTrap : public ScavTrap, public FragTrap {
 private:
@@ -15,11 +16,9 @@ public:
     DiamondTrap& operator=(const DiamondTrap& other);
     ~DiamondTrap();
 
-    // Resolve the attack() ambiguity by providing our own implementation
-    void attack(const std::string& target);
-    // Resolve ambiguity by explicitly declaring these
-    void takeDamage(unsigned int amount);
-    void beRepaired(unsigned int amount);
+    using ScavTrap::attack;
+    using ClapTrap::takeDamage;
+    using ClapTrap::beRepaired;
     
     void whoAmI() const;
 };

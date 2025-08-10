@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ClapTRap.hpp                                       :+:      :+:    :+:   */
+/*   ClapTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hkheired <hkheired@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 21:39:51 by hkheired          #+#    #+#             */
-/*   Updated: 2025/07/09 21:39:51 by hkheired         ###   ########.fr       */
+/*   Created: 2025/07/09 20:17:58 by hkheired          #+#    #+#             */
+/*   Updated: 2025/07/09 20:17:58 by hkheired         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLAPTRAPHPP
-#define CLAPTRAPHPP
+#ifndef CLAPTRAP_HPP
+#define CLAPTRAP_HPP
 
-#include <string>
 #include <iostream>
+#include <string>
 
 class ClapTrap {
 protected:
@@ -27,17 +27,12 @@ public:
     ClapTrap();
     ClapTrap(std::string name);
     ClapTrap(const ClapTrap& other);
-    ClapTrap& operator=(const ClapTrap& rhs);
+    ClapTrap& operator=(const ClapTrap& other);
     virtual ~ClapTrap();
 
     virtual void attack(const std::string& target);
     void takeDamage(unsigned int amount);
     void beRepaired(unsigned int amount);
-
-    std::string getName() const;
-    unsigned int getHitPoints() const;
-    unsigned int getEnergyPoints() const;
-    unsigned int getAttackDamage() const;
 };
 
 #endif

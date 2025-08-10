@@ -12,7 +12,6 @@
 
 #include "DiamondTrap.hpp"
 
-// Default constructor
 DiamondTrap::DiamondTrap() 
     : ClapTrap("Default_clap_name"), ScavTrap(), FragTrap() {
     name = "Default";
@@ -22,7 +21,6 @@ DiamondTrap::DiamondTrap()
     std::cout << "DiamondTrap default constructor called" << std::endl;
 }
 
-// Name constructor
 DiamondTrap::DiamondTrap(std::string name) 
     : ClapTrap(name + "_clap_name"), ScavTrap(), FragTrap() {
     this->name = name;
@@ -32,14 +30,12 @@ DiamondTrap::DiamondTrap(std::string name)
     std::cout << "DiamondTrap " << this->name << " constructor called" << std::endl;
 }
 
-// Copy constructor
 DiamondTrap::DiamondTrap(const DiamondTrap& other) 
     : ClapTrap(other), ScavTrap(other), FragTrap(other) {
     *this = other;
     std::cout << "DiamondTrap " << this->name << " copy constructor called" << std::endl;
 }
 
-// Copy assignment operator
 DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other) {
     if (this != &other) {
         ClapTrap::operator=(other);
@@ -51,27 +47,10 @@ DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other) {
     return *this;
 }
 
-// Destructor
 DiamondTrap::~DiamondTrap() {
     std::cout << "DiamondTrap " << this->name << " destructor called" << std::endl;
 }
 
-// Attack function - resolves ambiguity
-void DiamondTrap::attack(const std::string& target) {
-    ScavTrap::attack(target); // Use ScavTrap's attack as specified
-}
-
-// Resolve ambiguity for takeDamage
-void DiamondTrap::takeDamage(unsigned int amount) {
-    ClapTrap::takeDamage(amount);
-}
-
-// Resolve ambiguity for beRepaired
-void DiamondTrap::beRepaired(unsigned int amount) {
-    ClapTrap::beRepaired(amount);
-}
-
-// Special function
 void DiamondTrap::whoAmI() const {
     std::cout << "I am DiamondTrap " << this->name
               << " and my ClapTrap name is " << ClapTrap::name << std::endl;

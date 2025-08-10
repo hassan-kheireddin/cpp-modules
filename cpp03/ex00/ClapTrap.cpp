@@ -55,10 +55,13 @@ void ClapTrap::takeDamage(unsigned int amount) {
         std::cout << "ClapTrap " << name << " is already destroyed." << std::endl;
         return;
     }
+    if (hitPoints < amount) {
+        hitPoints = 0;
+    } else {
     hitPoints -= amount;
-    if (hitPoints < 0) hitPoints = 0;
     std::cout << "ClapTrap " << name << " takes " << amount 
               << " points of damage! Hit points left: " << hitPoints << std::endl;
+    }
 }
 
 void ClapTrap::beRepaired(unsigned int amount) {

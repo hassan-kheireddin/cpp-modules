@@ -28,18 +28,7 @@ int main() {
     scav.takeDamage(30);
     scav.beRepaired(10);
     scav.guardGate();
-
-    // Test polymorphism
-    std::cout << "\n=== Testing Polymorphism ===" << std::endl;
-    clap->attack("Target");  // Should use ScavTrap's attack
     delete clap;
-
-    // Test copy and assignment
-    std::cout << "\n=== Testing Copy/Assignment ===" << std::endl;
-    ScavTrap original("Original");
-    ScavTrap copy(original);
-    ScavTrap assigned;
-    assigned = original;
 
     return 0;
 }

@@ -28,17 +28,5 @@ int main() {
     frag.beRepaired(20);
     frag.highFivesGuys();
 
-    // Test polymorphism
-    std::cout << "\n=== Testing Polymorphism ===" << std::endl;
-    ClapTrap* clap = new FragTrap("Polymorph");
-    clap->attack("Enemy");
-    delete clap;
-
-    std::cout << "\n=== Testing Copy/Assignment ===" << std::endl;
-    FragTrap original("Original");
-    FragTrap copy(original);
-    FragTrap assigned;
-    assigned = original;
-
     return 0;
 }

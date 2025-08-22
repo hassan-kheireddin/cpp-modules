@@ -1,7 +1,7 @@
 NAME = fixed
-CXX = g++
+CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = fixed.cpp main.cpp
+SRC = Fixed.cpp main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

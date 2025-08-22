@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AMateria.cpp                                       :+:      :+:    :+:   */
+/*   Animal.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hkheired <hkheired@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 20:14:11 by hkheired          #+#    #+#             */
-/*   Updated: 2025/07/15 20:14:11 by hkheired         ###   ########.fr       */
+/*   Created: 2025/08/13 16:02:48 by hkheired          #+#    #+#             */
+/*   Updated: 2025/08/13 16:02:48 by hkheired         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AMateria.hpp"
+#include "Animal.hpp"
 
-AMateria::AMateria(std::string const& type) : type(type) {}
+Animal::Animal() : type("Animal") {
+    std::cout << "Animal default constructor called" << std::endl;
+}
 
-AMateria::AMateria(const AMateria& other) {
+Animal::Animal(const Animal &other) {
+    std::cout << "Animal copy constructor called" << std::endl;
     *this = other;
 }
 
-AMateria& AMateria::operator=(const AMateria& other) {
+Animal::~Animal() {
+    std::cout << "Animal destructor called" << std::endl;
+}
+
+Animal &Animal::operator=(const Animal &other) {
+    std::cout << "Animal assignment operator called" << std::endl;
     if (this != &other) {
-        this->type = other.type;
+        type = other.type;
     }
     return *this;
 }
 
-AMateria::~AMateria() {}
-
-std::string const& AMateria::getType() const {
+std::string Animal::getType() const {
     return type;
 }

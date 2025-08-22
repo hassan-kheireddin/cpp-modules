@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hkheired <hkheired@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/13 21:58:24 by hkheired          #+#    #+#             */
-/*   Updated: 2025/07/13 21:58:24 by hkheired         ###   ########.fr       */
+/*   Created: 2025/08/13 16:02:43 by hkheired          #+#    #+#             */
+/*   Updated: 2025/08/13 16:02:43 by hkheired         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Cat::Cat() {
     std::cout << "Cat default constructor called" << std::endl;
 }
 
-Cat::Cat(const Cat &other) : AAnimal(other) {
+Cat::Cat(const Cat &other) : Animal(other) {
     std::cout << "Cat copy constructor called" << std::endl;
 }
 
@@ -29,7 +29,7 @@ Cat::~Cat() {
 Cat &Cat::operator=(const Cat &other) {
     std::cout << "Cat assignment operator called" << std::endl;
     if (this != &other) {
-        AAnimal::operator=(other);
+        Animal::operator=(other);
     }
     return *this;
 }

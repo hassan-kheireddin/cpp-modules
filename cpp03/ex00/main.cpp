@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hkheired <hkheired@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 20:28:50 by hkheired          #+#    #+#             */
-/*   Updated: 2025/07/09 20:28:50 by hkheired         ###   ########.fr       */
+/*   Created: 2025/08/11 16:07:45 by hkheired          #+#    #+#             */
+/*   Updated: 2025/08/11 16:07:45 by hkheired         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
-#include <iostream>
 
 int main() {
     std::cout << "=== Testing ClapTrap ===" << std::endl;

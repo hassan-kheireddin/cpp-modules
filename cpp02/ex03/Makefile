@@ -1,7 +1,7 @@
 NAME = checkpoint
-CXX = g++
+CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = main.cpp bsp.cpp Point.cpp fixed.cpp
+SRC = main.cpp bsp.cpp Point.cpp Fixed.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

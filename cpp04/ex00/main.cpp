@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hkheired <hkheired@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/13 22:06:29 by hkheired          #+#    #+#             */
-/*   Updated: 2025/07/13 22:06:29 by hkheired         ###   ########.fr       */
+/*   Created: 2025/08/13 15:35:54 by hkheired          #+#    #+#             */
+/*   Updated: 2025/08/13 15:35:54 by hkheired         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,22 @@ void testWrongAnimalSound(const WrongAnimal& animal) {
 }
 
 int main() {
-    std::cout << "===== BASIC TESTS =====" << std::endl << std::endl;
+    std::cout <<"===== ANIMAL TESTS =====" <<std::endl << std::endl;
     {
-        Animal animal;
-        Dog dog;
-        Cat cat;
-        
-        testAnimalSound(animal);
-        testAnimalSound(dog);
-        testAnimalSound(cat);
+        const Animal* meta = new Animal();
+        const Animal* j = new Dog();
+        const Animal* i = new Cat();
+        std::cout << j->getType() << " " << std::endl;
+        std::cout << i->getType() << " " << std::endl;
+        i->makeSound(); //will output the cat sound!
+        j->makeSound();
+        meta->makeSound();
+
+        delete meta;
+        delete j;
+        delete i;
     }
-    
-    std::cout << "\n===== COPY TESTS =====" << std::endl << std::endl;
-    {
-        Dog originalDog;
-        Dog copiedDog(originalDog);
-        testAnimalSound(copiedDog);
-        
-        Cat originalCat;
-        Cat assignedCat;
-        assignedCat = originalCat;
-        testAnimalSound(assignedCat);
-    }
+
     
     std::cout << "\n===== WRONG ANIMAL TESTS =====" << std::endl << std::endl;
     {

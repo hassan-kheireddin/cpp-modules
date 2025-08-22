@@ -1,7 +1,7 @@
-NAME = aanimal
-CXX = g++
+NAME = animal
+CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = main.cpp AAnimal.cpp Cat.cpp Dog.cpp
+SRC = main.cpp Animal.cpp Cat.cpp Dog.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

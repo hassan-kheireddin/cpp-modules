@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   DiamondTrap.hpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hkheired <hkheired@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/13 10:05:02 by hkheired          #+#    #+#             */
+/*   Updated: 2025/08/13 10:05:02 by hkheired         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DIAMONDTRAP_HPP
 #define DIAMONDTRAP_HPP
 
@@ -16,10 +28,7 @@ public:
     DiamondTrap& operator=(const DiamondTrap& other);
     ~DiamondTrap();
 
-    using ScavTrap::attack;
-    using ClapTrap::takeDamage;
-    using ClapTrap::beRepaired;
-    
+    void attack(const std::string& target);
     void whoAmI() const;
 };
 

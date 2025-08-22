@@ -14,7 +14,7 @@ private:
     std::string darkestSecret;
 
 public:
-    bool checkName(const std::string& name) const; //
+    bool checkName(const std::string& name) const;
     bool checkPhoneNumber(const std::string& phone) const;
     bool checkContact();
 

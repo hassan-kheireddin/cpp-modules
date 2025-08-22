@@ -12,7 +12,6 @@
 
 #include <ctime>
 #include <iostream>
-
 #include "Account.hpp"
 
 #define ENSURE_DOUBLE_DIGIT(number) ((number < 10) ? "0" : "") << number

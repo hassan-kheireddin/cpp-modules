@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hkheired <hkheired@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 21:39:13 by hkheired          #+#    #+#             */
-/*   Updated: 2025/07/09 21:39:13 by hkheired         ###   ########.fr       */
+/*   Created: 2025/08/13 10:04:56 by hkheired          #+#    #+#             */
+/*   Updated: 2025/08/13 10:04:56 by hkheired         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ DiamondTrap::DiamondTrap(const DiamondTrap& other)
 DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other) {
     if (this != &other) {
         ClapTrap::operator=(other);
-        ScavTrap::operator=(other);
-        FragTrap::operator=(other);
         this->name = other.name;
     }
     std::cout << "DiamondTrap " << this->name << " copy assignment operator called" << std::endl;
@@ -49,6 +47,10 @@ DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other) {
 
 DiamondTrap::~DiamondTrap() {
     std::cout << "DiamondTrap " << this->name << " destructor called" << std::endl;
+}
+
+void DiamondTrap::attack(const std::string& target) {
+    ScavTrap::attack(target);
 }
 
 void DiamondTrap::whoAmI() const {

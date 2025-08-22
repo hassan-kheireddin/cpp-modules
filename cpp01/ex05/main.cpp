@@ -23,7 +23,7 @@ int main() {
         std::cout << "Testing level: " << levels[i] << std::endl;
         harl.complain(levels[i]);
         std::cout << std::endl;
-    }
+    }z
 
     std::cout << "Testing invalid level: \"MINOR\"" << std::endl;
     harl.complain("MINOR");

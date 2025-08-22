@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hkheired <hkheired@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 20:17:58 by hkheired          #+#    #+#             */
-/*   Updated: 2025/07/09 20:17:58 by hkheired         ###   ########.fr       */
+/*   Created: 2025/08/13 10:04:49 by hkheired          #+#    #+#             */
+/*   Updated: 2025/08/13 10:04:49 by hkheired         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ public:
     ClapTrap& operator=(const ClapTrap& other);
     virtual ~ClapTrap();
 
-    virtual void attack(const std::string& target);
+    void attack(const std::string& target);
     void takeDamage(unsigned int amount);
     void beRepaired(unsigned int amount);
 };

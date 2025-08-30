@@ -1,27 +1,25 @@
 #include "Serializer.hpp"
-#include "Data.hpp"
-#include <iostream>
 
-int main() {
-    Data data;
-    data.value = 42;
-    data.name = "Test Data";
+int main()
+{
+	Data original;
+	original.value = 42;
+	original.name = "Answer";
 
-    std::cout << "Original data: " << data.value << ", " << data.name << std::endl;
-    std::cout << "Original address: " << &data << std::endl;
+	std::cout << "Original: " << original.value << ", " << original.name << std::endl;
+	std::cout << "Original address: " << &original << std::endl;
 
-    uintptr_t serialized = Serializer::serialize(&data);
-    std::cout << "Serialized value: " << serialized << std::endl;
+	uintptr_t raw = Serializer::serialize(&original);
+	std::cout << "Serialized value: " << raw << std::endl;
 
-    Data* deserialized = Serializer::deserialize(serialized);
-    std::cout << "Deserialized data: " << deserialized->value << ", " << deserialized->name << std::endl;
-    std::cout << "Deserialized address: " << deserialized << std::endl;
+	Data* restored = Serializer::deserialize(raw);
+	std::cout << "Restored address: " << restored << std::endl;
+	std::cout << "Restored: " << restored->value << ", " << restored->name << std::endl;
 
-    if (deserialized == &data) {
-        std::cout << "Success: Original and deserialized pointers match!" << std::endl;
-    } else {
-        std::cout << "Error: Pointers don't match!" << std::endl;
-    }
+	if (restored == &original)
+		std::cout << "Pointers are equal! Serialization successful." << std::endl;
+	else
+		std::cout << "Error: Pointers are not equal." << std::endl;
 
-    return 0;
+	return 0;
 }

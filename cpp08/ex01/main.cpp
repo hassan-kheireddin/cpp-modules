@@ -1,8 +1,8 @@
 #include "Span.hpp"
 #include <iostream>
 #include <vector>
-#include <cstdlib> // for rand()
-#include <ctime>   // for time()
+#include <cstdlib>
+#include <ctime>
 
 int main() {
     // Test from the subject
@@ -17,11 +17,11 @@ int main() {
     std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
     std::cout << "Longest span: " << sp.longestSpan() << std::endl;
 
-    // Test with 10,000 numbers
-    std::cout << "\n=== Test with 10,000 numbers ===" << std::endl;
-    Span bigSpan(10000);
+    // Test with 15,000 numbers
+    std::cout << "\n=== Test with 15,000 numbers ===" << std::endl;
+    Span bigSpan(15000);
     std::srand(std::time(0));
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 15000; ++i) {
         bigSpan.addNumber(std::rand());
     }
     std::cout << "Shortest span: " << bigSpan.shortestSpan() << std::endl;
@@ -33,10 +33,9 @@ int main() {
     std::vector<int> vec;
     vec.push_back(100);
     vec.push_back(200);
-    vec.push_back(300);
+    vec.push_back(00);
 
     rangeSpan.addNumbers(vec.begin(), vec.end());
-    std::cout << "Added 3 numbers via iterators. Size is now: " << rangeSpan.getSize() << std::endl;
     std::cout << "Shortest span: " << rangeSpan.shortestSpan() << std::endl;
     std::cout << "Longest span: " << rangeSpan.longestSpan() << std::endl;
 

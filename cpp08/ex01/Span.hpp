@@ -7,10 +7,10 @@
 
 class Span {
 private:
-    unsigned int        _maxSize;
-    std::vector<int>    _numbers;
+    unsigned int        max_size;
+    std::vector<int>    numbers;
 
-    Span(); // Private default constructor
+    Span(); // Private default constructor to prevent usage without maximum size
 
 public:
     Span(unsigned int N);
@@ -24,19 +24,15 @@ public:
 
     unsigned int shortestSpan() const;
     unsigned int longestSpan() const;
-
-    unsigned int getSize() const;
-    unsigned int getMaxSize() const;
 };
 
-// Template implementation must be in the header
 template <typename Iterator>
 void Span::addNumbers(Iterator begin, Iterator end) {
     unsigned int dist = std::distance(begin, end);
-    if (_numbers.size() + dist > _maxSize) {
+    if (numbers.size() + dist > max_size) {
         throw std::runtime_error("Adding these numbers would exceed capacity");
     }
-    _numbers.insert(_numbers.end(), begin, end);
+    numbers.insert(numbers.end(), begin, end);
 }
 
 #endif

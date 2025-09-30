@@ -1,178 +1,233 @@
-#include "PmergeMe.hpp"
+#include "PmergeME.hpp"
 
-PmergeMe::PmergeMe() : comparisonCount(0) {}
-PmergeMe::~PmergeMe() {}
+// Orthodox Canonical Form implementation
+PmergeME::PmergeME() : vecOp(0), deqOp(0), 
+                       _vectorStartTime(0), _vectorEndTime(0), _dequeStartTime(0), _dequeEndTime(0) {}
 
-bool PmergeMe::isPositiveInteger(const std::string &s) {
-    for (size_t i = 0; i < s.size(); i++) {
-        if (!isdigit(s[i]))
-            return false;
+PmergeME::PmergeME(const PmergeME& other) 
+    : vecData(other.vecData), deqData(other.deqData), orgData(other.orgData),
+      vecOp(other.vecOp), deqOp(other.deqOp),
+      _vectorStartTime(other._vectorStartTime), _vectorEndTime(other._vectorEndTime),
+      _dequeStartTime(other._dequeStartTime), _dequeEndTime(other._dequeEndTime) {}
+
+PmergeME& PmergeME::operator=(const PmergeME& other)
+{
+    if (this != &other) {
+        vecData = other.vecData;
+        deqData = other.deqData;
+        orgData = other.orgData;
+        vecOp = other.vecOp;
+        deqOp = other.deqOp;
+        _vectorStartTime = other._vectorStartTime;
+        _vectorEndTime = other._vectorEndTime;
+        _dequeStartTime = other._dequeStartTime;
+        _dequeEndTime = other._dequeEndTime;
     }
-    return !s.empty();
+    return *this;
 }
 
-int PmergeMe::toInt(const std::string &s) {
-    long val = std::strtol(s.c_str(), NULL, 10);
-    if (val <= 0 || val > INT_MAX)
-        throw std::runtime_error("Error");
-    return static_cast<int>(val);
+PmergeME::~PmergeME() {}
+
+// Main interface implementation
+void PmergeME::processInput(char** argv)
+{
+    orgData = _parseArguments(argv);
+    vecData = std::vector<int>(orgData.begin(), orgData.end());
+    deqData = std::deque<int>(orgData.begin(), orgData.end());
 }
 
-bool PmergeMe::compare(int a, int b) {
-    ++comparisonCount;
-    return a < b;
+void PmergeME::sortAndDisplay()
+{
+    _printBefore();
+    
+    _resetPerformanceTracking();
+    
+    // Sort vector
+    _startTiming<std::vector<int> >(true);
+    vecData = _mergeSortRecursive(vecData, true);
+    _stopTiming<std::vector<int> >(true);
+    
+    // Sort deque
+    _startTiming<std::deque<int> >(false);
+    deqData = _mergeSortRecursive(deqData, false);
+    _stopTiming<std::deque<int> >(false);
+    
+    _printAfter();
+    _printTimingResults();
+    _printOperationCount();
 }
 
-// ========== Jacobsthal sequence ==========
-std::vector<size_t> PmergeMe::jacobsthalOrder(size_t n) {
-    std::vector<size_t> seq;
-    if (n == 0) return seq;
-
-    // Generate Jacobsthal numbers up to n
-    std::vector<size_t> J;
-    J.push_back(0);
-    J.push_back(1);
-    while (true) {
-        size_t next = J[J.size() - 1] + 2 * J[J.size() - 2];
-        if (next > n) break;
-        J.push_back(next);
+// Input validation implementation
+void PmergeME::_validateArguments(char** argv)
+{
+    if (argv[1] == NULL) {
+        throw std::invalid_argument("Error: No input provided.");
     }
-
-    // Build insertion order (reverse expansion)
-    size_t last = n;
-    for (size_t k = J.size(); k > 1; --k) {
-        size_t start = J[k - 1];
-        for (size_t i = last; i > start; --i) {
-            seq.push_back(i);
+    
+    std::set<int> seenNumbers;
+    int numberCount = 0;
+    
+    for (int i = 1; argv[i]; i++) {
+        std::string arg = argv[i];
+        std::stringstream ss(arg);
+        std::string number;
+        
+        while (std::getline(ss, number, ' ')) {
+            if (number.empty()) continue;
+            
+            _checkNumber(number);
+            
+            long num = std::atol(number.c_str());
+            if (num < INT_MIN || num > INT_MAX) {
+                throw std::invalid_argument("Error: Number is out of range (must be between INT_MIN and INT_MAX).");
+            }
+            
+            seenNumbers.insert(static_cast<int>(num));
+            numberCount++;
         }
-        last = start;
     }
-    return seq;
-}
-
-// ========== Bounded binary search ==========
-template <typename Container>
-size_t PmergeMe::binarySearchBounded(const Container &mainChain, int value, size_t low, size_t high) {
-    while (low < high) {
-        size_t mid = (low + high) / 2;
-        if (compare(value, mainChain[mid]))
-            high = mid;
-        else
-            low = mid + 1;
-    }
-    return low;
-}
-
-// ========== Pairing phase ==========
-template <typename Container>
-void PmergeMe::pairElements(Container &mainChain, Container &pendChain, const Container &input) {
-    for (size_t i = 0; i + 1 < input.size(); i += 2) {
-        int a = input[i];
-        int b = input[i + 1];
-        if (compare(a, b))
-            std::swap(a, b);
-        mainChain.push_back(a);
-        pendChain.push_back(b);
-    }
-    if (input.size() % 2 == 1) {
-        pendChain.push_back(input.back()); // leftover
+    
+    if (numberCount < 2) {
+        throw std::invalid_argument("Error: At least two numbers are required.");
     }
 }
 
-// ========== Insert pend elements ==========
-template <typename Container>
-void PmergeMe::insertPend(Container &mainChain, Container &pendChain) {
-    if (pendChain.empty()) return;
+std::vector<int> PmergeME::_parseArguments(char** argv)
+{
+    _validateArguments(argv);
+    
+    std::vector<int> numbers;
+    
+    for (int i = 1; argv[i]; i++) {
+        std::string arg = argv[i];
+        std::stringstream ss(arg);
+        std::string number;
+        
+        while (std::getline(ss, number, ' ')) {
+            if (number.empty()) continue;
+            numbers.push_back(std::atoi(number.c_str()));
+        }
+    }
+    
+    return numbers;
+}
 
-    // Insert first pend element directly
-    size_t pos = binarySearchBounded(mainChain, pendChain[0], 0, mainChain.size());
-    mainChain.insert(mainChain.begin() + pos, pendChain[0]);
-
-    // Insert rest in Jacobsthal order
-    std::vector<size_t> order = jacobsthalOrder(pendChain.size() - 1);
-    for (size_t idx : order) {
-        if (idx == 0 || idx >= pendChain.size()) continue;
-        int val = pendChain[idx];
-        size_t pos = binarySearchBounded(mainChain, val, 0, mainChain.size());
-        mainChain.insert(mainChain.begin() + pos, val);
+void PmergeME::_checkNumber(const std::string& numberStr)
+{
+    if (!_isValidInteger(numberStr)) {
+        throw std::invalid_argument("Error: Input contains non-numeric characters.");
+    }
+    
+    if (numberStr == "-") {
+        throw std::invalid_argument("Error: Invalid number format '-'. Expected a valid integer.");
     }
 }
 
-// ========== Recursive Ford–Johnson ==========
-template <typename Container>
-Container PmergeMe::fordJohnson(Container input) {
-    if (input.size() <= 1) return input;
-
-    Container mainChain, pendChain;
-    pairElements(mainChain, pendChain, input);
-
-    // Recurse on mainChain
-    mainChain = fordJohnson(mainChain);
-
-    // Insert pend elements
-    insertPend(mainChain, pendChain);
-
-    return mainChain;
+bool PmergeME::_isValidInteger(const std::string& str)
+{
+    if (str.empty()) return false;
+    
+    size_t start = 0;
+    if (str[0] == '-' || str[0] == '+') {
+        if (str.length() == 1) return false;
+        start = 1;
+    }
+    
+    for (size_t i = start; i < str.length(); ++i) {
+        if (!isdigit(str[i])) return false;
+    }
+    
+    return true;
 }
 
-std::vector<int> PmergeMe::fordJohnsonSort(std::vector<int> input) {
-    comparisonCount = 0;
-    return fordJohnson(input);
+// Jacobsthal number generation
+int PmergeME::_generateJacobsthal(int n)
+{
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    
+    int prev2 = 0, prev1 = 1, curr = 0;
+    for (int i = 2; i <= n; i++) {
+        curr = prev1 + 2 * prev2;
+        prev2 = prev1;
+        prev1 = curr;
+    }
+    return curr;
 }
 
-std::deque<int> PmergeMe::fordJohnsonSort(std::deque<int> input) {
-    comparisonCount = 0;
-    return fordJohnson(input);
+// Performance tracking methods
+void PmergeME::_resetPerformanceTracking()
+{
+    vecOp = 0;
+    deqOp = 0;
+    _vectorStartTime = 0;
+    _vectorEndTime = 0;
+    _dequeStartTime = 0;
+    _dequeEndTime = 0;
 }
 
-// ========== Printing ==========
-template <typename Container>
-void PmergeMe::printContainer(const std::string &prefix, const Container &c) {
-    std::cout << prefix;
-    for (size_t i = 0; i < c.size(); i++) {
-        std::cout << c[i] << " ";
+
+
+// Output formatting methods
+void PmergeME::_printBefore() const
+{
+    std::cout << "before:         ";
+    for (size_t i = 0; i < orgData.size(); ++i) {
+        std::cout << orgData[i];
+        if (i < orgData.size() - 1) std::cout << " ";
     }
     std::cout << std::endl;
 }
 
-// ========== Run ==========
-void PmergeMe::run(int argc, char **argv) {
-    if (argc < 2) {
-        std::cerr << "Error: no input" << std::endl;
-        return;
+void PmergeME::_printAfter() const
+{
+    std::cout << "After vector:   ";
+    for (size_t i = 0; i < vecData.size(); ++i) {
+        std::cout << vecData[i];
+        if (i < vecData.size() - 1) std::cout << " ";
     }
-
-    std::vector<int> vecInput;
-    std::deque<int> deqInput;
-
-    for (int i = 1; i < argc; i++) {
-        if (!isPositiveInteger(argv[i])) {
-            std::cerr << "Error" << std::endl;
-            return;
-        }
-        int num = toInt(argv[i]);
-        vecInput.push_back(num);
-        deqInput.push_back(num);
+    std::cout << std::endl;
+    
+    std::cout << "After deque:    ";
+    for (size_t i = 0; i < deqData.size(); ++i) {
+        std::cout << deqData[i];
+        if (i < deqData.size() - 1) std::cout << " ";
     }
+    std::cout << std::endl;
+}
 
-    printContainer("Before: ", vecInput);
+void PmergeME::_printTimingResults() const
+{
+    std::cout << "Time to process a range of " << deqData.size() << " elements with std::deque: ";
+    std::cout << std::fixed << std::setprecision(6) << _getElapsedTime<std::deque<int> >(false) << " us" << std::endl;
+    
+    std::cout << "Time to process a range of " << vecData.size() << " elements with std::vector: ";
+    std::cout << std::fixed << std::setprecision(6) << _getElapsedTime<std::vector<int> >(true) << " us" << std::endl;
+}
 
-    // Vector timing
-    clock_t start = clock();
-    std::vector<int> vecSorted = fordJohnsonSort(vecInput);
-    clock_t end = clock();
-    double vecTime = double(end - start) / CLOCKS_PER_SEC * 1e6;
+void PmergeME::_printOperationCount() const
+{
+    std::cout << "Total moves for vector-based sorting: " << _getOperationCount<std::vector<int> >(true) << std::endl;
+    std::cout << "Total moves for deque-based sorting: " << _getOperationCount<std::deque<int> >(false) << std::endl;
+}
 
-    printContainer("After: ", vecSorted);
-    std::cout << "Time to process a range of " << vecInput.size()
-              << " elements with std::vector: " << vecTime << " us" << std::endl;
+// Getters
+const std::vector<int>& PmergeME::getVectorData() const
+{
+    return _getData<std::vector<int> >(true);
+}
 
-    // Deque timing
-    start = clock();
-    std::deque<int> deqSorted = fordJohnsonSort(deqInput);
-    end = clock();
-    double deqTime = double(end - start) / CLOCKS_PER_SEC * 1e6;
+const std::deque<int>& PmergeME::getDequeData() const
+{
+    return _getData<std::deque<int> >(false);
+}
 
-    std::cout << "Time to process a range of " << deqInput.size()
-              << " elements with std::deque: " << deqTime << " us" << std::endl;
+size_t PmergeME::getVectorOperationCount() const
+{
+    return _getOperationCount<std::vector<int> >(true);
+}
+
+size_t PmergeME::getDequeOperationCount() const
+{
+    return _getOperationCount<std::deque<int> >(false);
 }
